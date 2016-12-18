@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Truck Race</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="tracks">
+    <div class="track">
+      <div data-key="65" class="truck">
+        <kbd>A</kbd>
+        <span class="truckName">Excavator</span>
+      </div>
+    </div>
+    <div class="track">
+      <div data-key="66" class="truck">
+        <kbd>B</kbd>
+        <span class="truckName">Excavator</span>
+      </div>
+    </div>
+    <div class="track">
+      <div data-key="67" class="truck">
+        <kbd>C</kbd>
+        <span class="truckName">Excavator</span>
+      </div>
+    </div>
+  </div>
+<!--
+  <audio data-key="excavator" src="sounds/clap.wav"></audio>
+  <audio data-key="cement mixer" src="sounds/hihat.wav"></audio>
+  <audio data-key="applause" src="sounds/applause.wav"></audio>
+-->
+  <script>
+
+    let position = {"65": 0, "66": 0, "67": 0}
+    const maxWidth = window.innerWidth
+
+    function moveTruck(e) {
+      if (e.keyCode === 8) window.location.reload(false)
+      const truck = document.querySelector(`.truck[data-key="${e.keyCode}"]`)
+      if (!truck) return
+      let pos = position[`${e.keyCode}`]
+      pos += 200
+      // Check for victory
+      if (pos >= maxWidth - 200) {
+        pos = maxWidth - 200
+        //audio = document.querySelector('audio[data-key="applause"]')
+        //audio.play()
+        truck.classList.add('winner')
+        truck.style.transform = `translateX(${pos}px) scale(1.5)`
+      } else {
+        truck.style.transform = `translateX(${pos}px)`
+      }
+      position[`${e.keyCode}`] = pos
+    }
+
+    window.addEventListener('keydown', moveTruck)
+  </script>
+
+</body>
+</html>
