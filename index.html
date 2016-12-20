@@ -17,7 +17,8 @@
   <script>
 
     let position = {}
-    const maxWidth = window.innerWidth
+    let maxWidth = window.innerWidth
+    window.addEventListener('resize', (e) => {debugger; maxWidth = e.target.innerWidth})
 
     function getRandomInt (min, max) {
       min = Math.ceil(min);
@@ -75,21 +76,23 @@
       for (let i = 0; i< n; i++) {
         tracks.innerHTML += getTrack(letters[i], trucks[i])
       }
+      const domTrucks = document.querySelectorAll(".truck")
     }
 
+    var rank = 0
     function moveTruck (e) {
       // backspace will reload the page.
       if (e.keyCode === 8) window.location.reload(false)
       const truck = document.querySelector(`.truck[data-key="${e.keyCode}"]`)
-      if (!truck) return
+      if (!truck || truck.classList.contains('winner')) return
       let pos = position[e.keyCode] || 0
       pos += 200
       // Check for victory
       if (pos >= maxWidth - 200) {
         pos = maxWidth - 200
-        //audio = document.querySelector('audio[data-key="applause"]')
-        //audio.play()
+        rank++
         truck.classList.add('winner')
+        truck.innerHTML += `${rank}`
         truck.style.transform = `translateX(${pos}px) scale(1.2)`
       } else {
         truck.style.transform = `translateX(${pos}px)`
