@@ -20,6 +20,16 @@
     let maxWidth = window.innerWidth
     window.addEventListener('resize', (e) => {debugger; maxWidth = e.target.innerWidth})
 
+    function once (fn) {
+      var called = false
+      return function () {
+        if (!called) {
+          called = true
+          fn()
+        }
+      }
+    }
+
     function getRandomInt (min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
@@ -84,16 +94,19 @@
       // backspace will reload the page.
       if (e.keyCode === 8) window.location.reload(false)
       const truck = document.querySelector(`.truck[data-key="${e.keyCode}"]`)
-      if (!truck || truck.classList.contains('winner')) return
+      if (!truck || truck.classList.contains('finished')) return
       let pos = position[e.keyCode] || 0
       pos += 200
       // Check for victory
       if (pos >= maxWidth - 200) {
         pos = maxWidth - 200
-        rank++
-        truck.classList.add('winner')
-        truck.innerHTML += `${rank}`
-        truck.style.transform = `translateX(${pos}px) scale(1.2)`
+        truck.classList.add('finished')
+        truck.addEventListener('transitionend', once(() => {
+          rank++
+          truck.classList.add('winner')
+          truck.innerHTML += `<div class='score'>${rank}</div>`
+          truck.style.transform = `translateX(${pos}px)`
+        }))
       } else {
         truck.style.transform = `translateX(${pos}px)`
       }
