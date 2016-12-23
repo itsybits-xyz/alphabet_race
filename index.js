@@ -56,7 +56,7 @@ function getLetters (n) {
 }
 
 function getTrucks (letters, n) {
-  const truckNames = pickRandomN([...Array(46).keys()], n).map(x => `images/trucking-${x}.png`)
+  const truckNames = pickRandomN([...Array(46).keys()], n).map(x => `images/truck-${x}.png`)
   let trucks = []
   for (let i = 0; i < n ; i++) {
     const truck = `<div data-key="${letters[i].charCodeAt(0)}" class="truck"><img src="${truckNames[i]}"/></div>`
