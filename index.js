@@ -2,9 +2,8 @@ let position = {}
 let maxWidth = window.innerWidth
 
 // Register event listeners
-window.addEventListener('resize', (e) => {debugger; maxWidth = e.target.innerWidth})
+window.addEventListener('resize', (e) => {maxWidth = e.target.innerWidth})
 window.addEventListener ('keydown', moveTruck)
-window.addEventListener ('keyup', moveTruck)
 window.addEventListener('load', drawPage)
 
 function once (fn) {
