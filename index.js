@@ -42,7 +42,8 @@ function pickLetters (n) {
   const numbers = ['0', '1', '2', '3','4', '5', '6', '7', '8', '9']
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
     'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-  return pickRandomN(letters.concat(numbers), n)
+  //return pickRandomN(letters.concat(numbers), n)
+  return pickRandomN(letters, n)
 }
 
 function buildTrucks (letters, n) {
@@ -71,10 +72,12 @@ var rank = 0
 
 function assignRank (e) {
   const truck = e.target
-  if (truck.rank) {
-    debugger
+  if (truck && truck.rank) {
     truck.classList.add('winner')
     truck.innerHTML += `<div class='score'>${truck.rank}</div>`
+    const applause = new Audio(`sounds/applause.wav`)
+    applause.currentTime = 0
+    applause.play()
   }
 }
 
@@ -83,6 +86,10 @@ function moveTruck (e) {
   if (e.keyCode === 8) window.location.reload(false)
   const truck = document.querySelector(`.truck[data-forward-key="${e.keyCode}"]`)
   if (!truck || truck.classList.contains('winner')) return
+  const letter = String.fromCharCode(e.keyCode).toLowerCase()
+  const letterSound = new Audio(`sounds/${letter}.wav`)
+  letterSound.currentTime = 0
+  letterSound.play()
   let pos = position[e.keyCode] || 0
   if (pos >= maxWidth - 200) return
   pos += 200
