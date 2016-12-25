@@ -1,5 +1,5 @@
 html {
-  font-size: 10px;
+  font-size: 15px;
   /*background:url(images/Pebbles1.png) bottom center;*/
   /*background-size: cover;*/
 }
@@ -7,6 +7,48 @@ body,html {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+li {
+  float: left;
+  border-right: 1px solid #bbb;
+}
+
+li:last-child {
+  border-right: none;
+  float:right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.highlight {
+  color: #4CAF50;
+}
+
+.body {
+  padding: 20px;
+  margin-top: 30px;
 }
 
 .tracks {
