@@ -26,7 +26,7 @@ function pickRandomN (items, n) {
 }
 
 function getMilestone (letter) {
-  return `<div class="milestone">
+  return `<div class="milestone" data-forward-key="${letter.charCodeAt(0)}">
     <kbd>${letter}</kbd>
     </div>`
 }
@@ -60,12 +60,18 @@ function drawPage () {
   const n = 3
   const letters = pickLetters(n * 2)
   const trucks = buildTrucks(letters, n)
-  const tracks = document.querySelector(".tracks")
+  const tracks = document.querySelector('.tracks')
   for (let i = 0; i< n; i++) {
     tracks.innerHTML += getTrack(letters[i], trucks[i])
   }
+  window.setTimeout(() => {
+    const flash = document.querySelector('.flash')
+    flash.style.visibility = 'hidden'
+  }, 1500)
   const domTrucks = document.querySelectorAll(".truck")
   domTrucks.forEach(truck => truck.addEventListener('transitionend', assignRank))
+  const domMilestones = document.querySelectorAll(".milestone")
+  domMilestones.forEach(milestone => milestone.addEventListener('transitionend', removeTransition))
 }
 
 var rank = 0
@@ -81,9 +87,18 @@ function assignRank (e) {
   }
 }
 
+function removeTransition(e) {
+  if (e.propertyName !== 'transform') return;
+  e.target.classList.remove('pressed');
+}
+
 function moveTruck (e) {
   // backspace will reload the page.
   if (e.keyCode === 8) window.location.reload(false)
+
+  const milestone = document.querySelector(`.milestone[data-forward-key="${e.keyCode}"]`)
+  if (milestone) milestone.classList.add('pressed')
+
   const truck = document.querySelector(`.truck[data-forward-key="${e.keyCode}"]`)
   if (!truck || truck.classList.contains('winner')) return
   const letter = String.fromCharCode(e.keyCode).toLowerCase()
