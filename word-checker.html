@@ -1,0 +1,77 @@
+<html>
+
+  <body>
+    <div>
+      <span id="w1-l1-a">a</span><span id="w1-l2-d">d</span><span
+        id="w1-l3-a">a</span><span id="w1-l4-m">m</span>
+    </div>
+
+    <div>
+      <span id="w2-l1-b">b</span><span id="w2-l2-i">i</span><span
+        id="w2-l3-l">l</span><span id="w2-l4-l">l</span>
+    </div>
+
+    <div>
+      <span id="w3-l1-j">j</span><span id="w3-l2-o">o</span><span
+        id="w3-l3-h">h</span><span id="w3-l4-n">n</span>
+    </div>
+  </body>
+
+  <script>
+    var activeWord = 0;
+    var words = ["adam", "bill", "john"];
+    var input = "";
+
+    document.body.addEventListener('keypress', function(ev) {
+
+      var typedChar = String.fromCharCode(ev.keyCode);
+
+      var currentLetter = input.length;
+
+      var currentDomLetter;
+      var checkWordChar;
+
+      if (activeWord === 0) {
+        // Check each word to see which one should become active if any
+        words.forEach(function(word, index) {
+          checkWordChar = word.substr(currentLetter, 1);
+          if (typedChar === checkWordChar) {
+            // Set the active word
+            activeWord = index + 1;
+
+            // Color the letter in the dom for the letter of the active word
+            currentDomLetter = document.getElementById(
+              'w' + activeWord + '-l' + (currentLetter+1) + '-' + typedChar
+            );
+            currentDomLetter.style.color = '#FF0000';
+
+            // Track input so far
+            input += typedChar;
+          }
+        });
+      } else {
+        // If currently typing a word then keep validating that same word
+        checkWordChar = words[activeWord-1].substr(currentLetter, 1);
+        if (typedChar === checkWordChar) {
+
+          // Color the letter in the dom for the letter of the active word
+          currentDomLetter = document.getElementById(
+            'w' + activeWord + '-l' + (currentLetter+1) + '-' + typedChar
+          );
+          currentDomLetter.style.color = '#FF0000';
+
+          // Track input so far
+          input += typedChar;
+
+          // Reset active word if word is completed
+          if (words[activeWord-1].length === input.length) {
+            activeWord = 0;
+            input = '';
+          }
+        }
+      }
+    });
+
+  </script>
+
+</html>
