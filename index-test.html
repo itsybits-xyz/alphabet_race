@@ -1,25 +1,48 @@
 <html>
-   <head>
-   </head>
-   <body>
-     <object id="truck" data="images/truck-4-animate-3-test.svg"
-        type="image/svg+xml" width="400" height="400"/>
-   </body>
+  <head>
+  </head>
+  <body>
+    <object id="truck" data="images/truck-4-labeled.svg"
+      type="image/svg+xml" width="1500" height="1500"/>
+  </body>
 
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
 
-   <script type="text/javascript">
-      var a = document.getElementById("truck")
-      a.addEventListener('load', () => {
-        var svg = a.contentDocument
-        var back = svg.getElementById('back')
-        var tl = new TimelineMax()
-        tl.to(back, 1, {rotation:0, transformOrigin:"40% 70%"}, "+=0")
-        .to(back, 1, {rotation:32, transformOrigin:"40% 70%"}, "+=0")
-        .to(back, 1, {rotation:0, transformOrigin:"40% 70%"}, "+=0")
-        tl.pause()
-        tl.play()
-      })
-   </script>
+  <script type="text/javascript">
+
+    var a = document.getElementById("truck")
+
+    a.addEventListener('load', () => {
+
+      var svg = a.contentDocument
+
+      var back = svg.getElementById( 'back' )
+
+      var frontWheel = svg.getElementById( 'frontWheel' )
+      var backWheel = svg.getElementById( 'backWheel' )
+
+      var wheels = [frontWheel, backWheel]
+
+      var tl = new TimelineMax()
+
+      tl
+      .staggerFromTo(
+        wheels, 5,
+        { rotation: 0, transformOrigin:"50% 50%" },
+        { rotation: 360, transformOrigin:"50% 50%" },
+        0
+      )
+
+      tl
+      .to( back, 1, { rotation:-0,  transformOrigin:"40% 70%" }, "+=0" )
+      .to( back,   1, { rotation:-32, transformOrigin:"40% 70%" }, "+=0" )
+      .to( back,   1, { rotation:-0,  transformOrigin:"40% 70%" }, "+=0" )
+
+      tl.pause()
+
+      tl.play()
+
+    })
+  </script>
 
 </html>
