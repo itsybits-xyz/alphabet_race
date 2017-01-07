@@ -2,21 +2,23 @@
    <head>
    </head>
    <body>
-     <object id="truck" data="images/truck-4-animate-3-test.svg" type="image/svg+xml"/>
+     <object id="truck" data="images/truck-4-animate-3-test.svg"
+        type="image/svg+xml" width="400" height="400"/>
    </body>
 
-   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
 
    <script type="text/javascript">
-      var truckSvg = document.getElementById('truck').addEventListener('load', () => {
-        debugger
-        var svg = this.getSVGDocument()
-        var back = svg.getElementById('rect')
-        var tl = new TimelineMax();
-        tl.to(elements, 1, {rotation:-45, transformOrigin:"left bottom"}, "+=1");
-        tl.pause();
-        tl.play();
+      var a = document.getElementById("truck")
+      a.addEventListener('load', () => {
+        var svg = a.contentDocument
+        var back = svg.getElementById('back')
+        var tl = new TimelineMax()
+        tl.to(back, 1, {rotation:0, transformOrigin:"40% 70%"}, "+=0")
+        .to(back, 1, {rotation:32, transformOrigin:"40% 70%"}, "+=0")
+        .to(back, 1, {rotation:0, transformOrigin:"40% 70%"}, "+=0")
+        tl.pause()
+        tl.play()
       })
    </script>
 
