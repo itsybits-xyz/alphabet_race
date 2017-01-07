@@ -23,9 +23,10 @@
 
       var wheels = [frontWheel, backWheel]
 
-      var tl = new TimelineMax()
+      var tl1 = new TimelineMax()
+      var tl2 = new TimelineMax()
 
-      tl
+      tl1
       .staggerFromTo(
         wheels, 5,
         { rotation: 0, transformOrigin:"50% 50%" },
@@ -33,14 +34,15 @@
         0
       )
 
-      tl
+      tl2
+      .to( back, 1, { rotation:-32, transformOrigin:"40% 70%" }, "+=0" )
       .to( back, 1, { rotation:-0,  transformOrigin:"40% 70%" }, "+=0" )
-      .to( back,   1, { rotation:-32, transformOrigin:"40% 70%" }, "+=0" )
-      .to( back,   1, { rotation:-0,  transformOrigin:"40% 70%" }, "+=0" )
 
-      tl.pause()
+      tl1.pause()
+      tl2.pause()
 
-      tl.play()
+      tl1.play()
+      tl2.play()
 
     })
   </script>
