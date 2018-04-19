@@ -3,7 +3,7 @@ let maxWidth = window.innerWidth
 
 // Register event listeners
 window.addEventListener('resize', (e) => {maxWidth = e.target.innerWidth})
-window.addEventListener ('keydown', moveTruck)
+window.addEventListener ('keydown', moveRacer)
 window.addEventListener('load', drawPage)
 
 function getRandomInt (min, max) {
@@ -13,7 +13,7 @@ function getRandomInt (min, max) {
 }
 
 function pickRandomN (items, n) {
-  if (items.length < n) throw new RangeError(`Not enough elemnts to take. Requested: ${n} Available: ${items.length}`)
+  if (items.length < n) throw new RangeError(`Not enough elements to take. Requested: ${n} Available: ${items.length}`)
   selected = new Set()
   while (n) {
     const i = getRandomInt(0, items.length)
@@ -31,9 +31,9 @@ function getMilestone (letter) {
     </div>`
 }
 
-function getTrack (letter, truck) {
+function getTrack (letter, racer) {
   return `<div class="track">
-    ${truck}
+    ${racer}
     ${getMilestone(letter)}
   </div>`
 }
@@ -42,34 +42,34 @@ function pickLetters (n) {
   const numbers = ['0', '1', '2', '3','4', '5', '6', '7', '8', '9']
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
     'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-  //return pickRandomN(letters.concat(numbers), n)
-  return pickRandomN(letters, n)
+  return pickRandomN(letters.concat(numbers), n)
+  //return pickRandomN(letters, n)
 }
 
-function buildTrucks (letters, n) {
-  const truckImages = pickRandomN([...Array(46).keys()], n).map(x => `images/truck-${x}.png`)
-  let trucks = []
+function buildRacers (letters, n) {
+  const racerImages = pickRandomN([...Array(46).keys()], n).map(x => `images/racer-${x}.png`)
+  let racers = []
   for (let i = 0; i < n ; i++) {
-    const truck = `<div data-forward-key="${letters[i].charCodeAt(0)}" data-reverse-key="${letters[i].charCodeAt(0)}" class="truck"><img src="${truckImages[i]}"/></div>`
-    trucks.push(truck)
+    const racer = `<div data-forward-key="${letters[i].charCodeAt(0)}" data-reverse-key="${letters[i].charCodeAt(0)}" class="racer"><img src="${racerImages[i]}"/></div>`
+    racers.push(racer)
   }
-  return trucks
+  return racers
 }
 
 function drawPage () {
   const n = 3
   const letters = pickLetters(n * 2)
-  const trucks = buildTrucks(letters, n)
+  const racers = buildRacers(letters, n)
   const tracks = document.querySelector('.tracks')
   for (let i = 0; i< n; i++) {
-    tracks.innerHTML += getTrack(letters[i], trucks[i])
+    tracks.innerHTML += getTrack(letters[i], racers[i])
   }
   window.setTimeout(() => {
     const flash = document.querySelector('.flash')
     flash.style.visibility = 'hidden'
   }, 1500)
-  const domTrucks = document.querySelectorAll(".truck")
-  domTrucks.forEach(truck => truck.addEventListener('transitionend', assignRank))
+  const domRacers = document.querySelectorAll(".racer")
+  domRacers.forEach(racer => racer.addEventListener('transitionend', assignRank))
   const domMilestones = document.querySelectorAll(".milestone")
   domMilestones.forEach(milestone => milestone.addEventListener('transitionend', removeTransition))
 }
@@ -77,10 +77,10 @@ function drawPage () {
 var rank = 0
 
 function assignRank (e) {
-  const truck = e.target
-  if (truck && truck.rank) {
-    truck.classList.add('winner')
-    truck.innerHTML += `<div class='score'>${truck.rank}</div>`
+  const racer = e.target
+  if (racer && racer.rank) {
+    racer.classList.add('winner')
+    racer.innerHTML += `<div class='score'>${racer.rank}</div>`
     const applause = new Audio(`sounds/applause.wav`)
     applause.currentTime = 0
     applause.play()
@@ -92,15 +92,15 @@ function removeTransition(e) {
   e.target.classList.remove('pressed');
 }
 
-function moveTruck (e) {
+function moveRacer (e) {
   // backspace will reload the page.
   if (e.keyCode === 8) window.location.reload(false)
 
   const milestone = document.querySelector(`.milestone[data-forward-key="${e.keyCode}"]`)
   if (milestone) milestone.classList.add('pressed')
 
-  const truck = document.querySelector(`.truck[data-forward-key="${e.keyCode}"]`)
-  if (!truck || truck.classList.contains('winner')) return
+  const racer = document.querySelector(`.racer[data-forward-key="${e.keyCode}"]`)
+  if (!racer || racer.classList.contains('winner')) return
   const letter = String.fromCharCode(e.keyCode).toLowerCase()
   const letterSound = new Audio(`sounds/${letter}.wav`)
   letterSound.currentTime = 0
@@ -111,8 +111,8 @@ function moveTruck (e) {
   // Check for victory
   if (pos >= maxWidth - 200) {
     pos = maxWidth - 200
-    truck.rank = ++rank
+    racer.rank = ++rank
   }
-  truck.style.transform = `translateX(${pos}px)`
+  racer.style.transform = `translateX(${pos}px)`
   position[e.keyCode] = pos
 }
