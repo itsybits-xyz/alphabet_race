@@ -59,7 +59,7 @@ function buildRacers (letters, n, theme) {
 function drawPage () {
   const n = 3
   const letters = pickLetters(n * 2)
-  const racers = buildRacers(letters, n, 'trucks')
+  const racers = buildRacers(letters, n, 'animals')
   const tracks = document.querySelector('.tracks')
   for (let i = 0; i< n; i++) {
     tracks.innerHTML += getTrack(letters[i], racers[i])
