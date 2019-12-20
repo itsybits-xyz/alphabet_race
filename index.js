@@ -47,7 +47,7 @@ function pickLetters (n) {
 }
 
 function buildRacers (letters, n, theme) {
-  const racerImages = pickRandomN([...Array(46).keys()], n).map(x => `images/${theme}/racer-${x}.png`)
+  const racerImages = pickRandomN([...Array(188).keys()], n).map(x => `images/${theme}/racer-${x}.png`)
   let racers = []
   for (let i = 0; i < n ; i++) {
     const racer = `<div data-forward-key="${letters[i].charCodeAt(0)}" data-reverse-key="${letters[i].charCodeAt(0)}" class="racer"><img src="${racerImages[i]}"/></div>`
@@ -59,7 +59,7 @@ function buildRacers (letters, n, theme) {
 function drawPage () {
   const n = 3
   const letters = pickLetters(n * 2)
-  const racers = buildRacers(letters, n, 'animals')
+  const racers = buildRacers(letters, n, 'superheroes')
   const tracks = document.querySelector('.tracks')
   for (let i = 0; i< n; i++) {
     tracks.innerHTML += getTrack(letters[i], racers[i])
